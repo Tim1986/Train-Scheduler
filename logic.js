@@ -38,16 +38,16 @@ var firebaseConfig = {
 
   database.ref().on("child_added", function(childSnapshot) {
 
-    var firstTrain = moment(childSnapshot.val().test.firstTrain, "HH:mm")
-    console.log(firstTrain)
-    var trainTimeConverted = moment(firstTrain, "HH:mm").subtract(1, "years")
-    console.log(trainTimeConverted)
-    var currentTime = moment()
+    var firstTrain = moment(childSnapshot.val().test.firstTrain, "HH:mm");
+    console.log(firstTrain);
+    var trainTimeConverted = moment(firstTrain, "HH:mm").subtract(1, "years");
+    console.log(trainTimeConverted);
+    var currentTime = moment();
     console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
     var diffTime = moment().diff(moment(trainTimeConverted), "minutes");
     console.log("DIFFERENCE IN TIME: " + diffTime);
-    var tFrequency = childSnapshot.val().test.frequency
-    console.log(tFrequency)
+    var tFrequency = childSnapshot.val().test.frequency;
+    console.log(tFrequency);
     var remainder = diffTime % tFrequency; 
     console.log(remainder);
     var minutesAway = tFrequency - remainder;
