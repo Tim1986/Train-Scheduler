@@ -28,18 +28,23 @@ var firebaseConfig = {
     database.ref().push({
         test: train
     })
-  })
+
+    $("#name-input").val("");
+    $("#destination-input").val("");
+    $("#first-train-input").val("");
+    $("#frequency-input").val("");  
+})
 
 
   database.ref().on("child_added", function(childSnapshot) {
 
     var firstTrain = moment(childSnapshot.val().test.firstTrain, "HH:mm")
     console.log(firstTrain)
-    var trainTimeConverted = moment(firstTrain, "HH:mm")
+    var trainTimeConverted = moment(firstTrain, "HH:mm").subtract(1, "years")
     console.log(trainTimeConverted)
     var currentTime = moment()
     console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
-    var diffTime = Math.abs(moment().diff(moment(trainTimeConverted), "minutes"));
+    var diffTime = moment().diff(moment(trainTimeConverted), "minutes");
     console.log("DIFFERENCE IN TIME: " + diffTime);
     var tFrequency = childSnapshot.val().test.frequency
     console.log(tFrequency)
@@ -50,12 +55,12 @@ var firebaseConfig = {
     var nextArrival = moment().add(minutesAway, "minutes");
     console.log("ARRIVAL TIME: " + moment(nextArrival).format("HH:mm"));
 
-    var newRow = $(".trains").append("<tr>")
-    $(newRow).append("<td class=newName>" + childSnapshot.val().test.name)
-    $(newRow).append("<td class=newDestination>" + childSnapshot.val().test.destination)
-    $(newRow).append("<td class=newFirstTrain>" + childSnapshot.val().test.firstTrain)
-    $(newRow).append("<td class=newFrequency>" + childSnapshot.val().test.frequency)
-    $(newRow).append("<td class=newNextArrival>" + moment(nextArrival).format("HH:mm"))
-    $(newRow).append("<td class=newMinutesAway>" + minutesAway)
-    $(".trains").append(newRow)
-  })
+    var newRow = $(".trains").append("<tr>");
+    $(newRow).append("<td class=newName>" + childSnapshot.val().test.name);
+    $(newRow).append("<td class=newDestination>" + childSnapshot.val().test.destination);
+    $(newRow).append("<td class=newFirstTrain>" + childSnapshot.val().test.firstTrain);
+    $(newRow).append("<td class=newFrequency>" + childSnapshot.val().test.frequency);
+    $(newRow).append("<td class=newNextArrival>" + moment(nextArrival).format("HH:mm"));
+    $(newRow).append("<td class=newMinutesAway>" + minutesAway);
+    $(".trains").append(newRow);
+  });
